@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="javascript.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Library</title>
+</head>
+<body>
+    <div class="container">
+        <button class="openDialog">Add Book</button>
+    </div>
+    <dialog>
+        <p>Let's add a New and Exciting Book!</p>
+        <form id="form">
+            <label>
+                Title of Book: 
+                <input type="text" name="title" required aria-required="true">
+            </label>
+            <label>
+                Author: 
+                <input type="text" name="author" required aria-required="true">
+            </label>
+            <label>
+                Number of Pages: 
+                <input type="text" name="pages" required aria-required="true">
+            </label>
+            <label>
+                Read or Not Read:
+                <input type="text" name="read" required aria-required="true">
+            </label>
+            <button formmethod="dialog" formnovalidate>Cancel</button>
+            <button class="addBookBtn">Add Book</button>
+        </form>
+    </dialog>
+</body>
+</html>
