@@ -1,11 +1,12 @@
 
 const myLibrary = [];
-
+let counter = 0;
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+    this.id = counter++;
 }
 
 Book.prototype.info = function() {
@@ -20,17 +21,8 @@ function addBookToLibrary(title, author, pages, read) {
 
 function displayBookLibrary() {
     clearLibrary();
-    myLibrary.forEach(book => {
-        const bookCard = document.createElement('div');
-        const removeBook = document.createElement('button');
-        removeBook.textContent = 'Remove';
-        removeBook.classList.add('removeBook');
-        const container = document.querySelector('.container');
-        bookCard.classList.add('card');
-        bookCard.textContent = book.info();
-        bookCard.appendChild(removeBook);
-        container.appendChild(bookCard);
-    })
+    createBookDOM();
+    removeBook();
 }
 
 function clearLibrary() {
@@ -57,12 +49,33 @@ addBookBtn.addEventListener('click', (event) => {
     dialog.close();
 })
 
-const removeBook = document.querySelectorAll('.removeBook');
+function removeBook() {
+    const removeBook = document.querySelectorAll('.removeBook');
+    removeBook.forEach((button) => {
+        button.addEventListener('click', () => {
+            const parentElement = button.parentElement;
+            for(let book of myLibrary) {
+                if (book.id === +parentElement.getAttribute('id')) {
+                    const bookIndex = myLibrary.indexOf(book);
+                    myLibrary.splice(bookIndex, 1);  
+                    displayBookLibrary();
+                }
+            }
+        });
+    })
+}
 
-removeBook.forEach((button) => {
-    button.addEventListener('click', () => {
-        const parentElement = button.parentElement;
-        console.log(parentElement)
-    });
-})
-
+function createBookDOM() {
+    myLibrary.forEach(book => {
+        const bookCard = document.createElement('div');
+        const removeBook = document.createElement('button');
+        removeBook.textContent = 'Remove';
+        removeBook.classList.add('removeBook');
+        bookCard.setAttribute('id',`${book.id}`)
+        const container = document.querySelector('.container');
+        bookCard.classList.add('card');
+        bookCard.textContent = book.info();
+        bookCard.appendChild(removeBook);
+        container.appendChild(bookCard);
+    })
+}
