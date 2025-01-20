@@ -24,14 +24,64 @@ function addBookToLibrary(title, author, pages, read) {
 }
 
 function displayBookLibrary() {
-    clearLibrary();
-    createBookDOM();
-    removeBook();
-    changeReadStatus();
+    clearBooks();
+    displayBooks();
+    addRemoveBooksListeners();
+    addChangeReadStatusListeners();
 }
 
-function clearLibrary() {
+function clearBooks() {
     document.querySelectorAll('.card').forEach(el => el.remove());
+}
+
+function addRemoveBooksListeners() {
+    const removeBook = document.querySelectorAll('.removeBook');
+    removeBook.forEach((button) => {
+        button.addEventListener('click', () => {
+            const parentElement = button.parentElement;
+            for(let book of myLibrary) {
+                if (book.id === +parentElement.getAttribute('id')) {
+                    const bookIndex = myLibrary.indexOf(book);
+                    myLibrary.splice(bookIndex, 1);  
+                    displayBookLibrary();
+                }
+            }
+        });
+    })
+}
+
+function  addChangeReadStatusListeners() {
+    const buttons = document.querySelectorAll('.changeRead');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const parentElement = button.parentElement;
+            for(let book of myLibrary) {
+                if (book.id === +parentElement.getAttribute('id')) {
+                    book.changeRead();
+                    displayBookLibrary();
+                }
+            }
+        })
+    })
+}
+
+function displayBooks() {
+    myLibrary.forEach(book => {
+        const bookCard = document.createElement('div');
+        const removeBook = document.createElement('button');
+        const changeReadStatus = document.createElement('button');
+        changeReadStatus.textContent = 'Change Read Status';
+        changeReadStatus.classList.add('changeRead');
+        removeBook.textContent = 'Remove';
+        removeBook.classList.add('removeBook');
+        bookCard.setAttribute('id',`${book.id}`)
+        const container = document.querySelector('.container');
+        bookCard.classList.add('card');
+        bookCard.textContent = book.info();
+        bookCard.appendChild(removeBook);
+        bookCard.appendChild(changeReadStatus);
+        container.appendChild(bookCard);
+    })
 }
 
 addBookToLibrary('Hippity', 'K', '300', 'Not read');
@@ -52,53 +102,3 @@ form.addEventListener('submit', (event) => {
     addBookToLibrary(book.title, book.author, book.pages, book.read);
     dialog.close();
 })
-
-function removeBook() {
-    const removeBook = document.querySelectorAll('.removeBook');
-    removeBook.forEach((button) => {
-        button.addEventListener('click', () => {
-            const parentElement = button.parentElement;
-            for(let book of myLibrary) {
-                if (book.id === +parentElement.getAttribute('id')) {
-                    const bookIndex = myLibrary.indexOf(book);
-                    myLibrary.splice(bookIndex, 1);  
-                    displayBookLibrary();
-                }
-            }
-        });
-    })
-}
-
-function changeReadStatus() {
-    const buttons = document.querySelectorAll('.changeRead');
-    buttons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const parentElement = button.parentElement;
-            for(let book of myLibrary) {
-                if (book.id === +parentElement.getAttribute('id')) {
-                    book.changeRead();
-                    displayBookLibrary();
-                }
-            }
-        })
-    })
-}
-
-function createBookDOM() {
-    myLibrary.forEach(book => {
-        const bookCard = document.createElement('div');
-        const removeBook = document.createElement('button');
-        const changeReadStatus = document.createElement('button');
-        changeReadStatus.textContent = 'Change Read Status';
-        changeReadStatus.classList.add('changeRead');
-        removeBook.textContent = 'Remove';
-        removeBook.classList.add('removeBook');
-        bookCard.setAttribute('id',`${book.id}`)
-        const container = document.querySelector('.container');
-        bookCard.classList.add('card');
-        bookCard.textContent = book.info();
-        bookCard.appendChild(removeBook);
-        bookCard.appendChild(changeReadStatus);
-        container.appendChild(bookCard);
-    })
-}
