@@ -13,6 +13,10 @@ Book.prototype.info = function() {
     return `${this.title}\nBy ${this.author}\n${this.pages} pages\n${this.read}`
 }
 
+Book.prototype.changeRead = function() {
+    this.read = (this.read === 'Not read') ? 'Read' : 'Not read'; 
+}
+
 function addBookToLibrary(title, author, pages, read) {
     const book = new Book(title, author, pages, read);
     myLibrary.push(book);
@@ -23,15 +27,16 @@ function displayBookLibrary() {
     clearLibrary();
     createBookDOM();
     removeBook();
+    changeReadStatus();
 }
 
 function clearLibrary() {
     document.querySelectorAll('.card').forEach(el => el.remove());
 }
 
-addBookToLibrary('Hippity', 'K', '300', 'Not read yet');
-addBookToLibrary('Hoppity', 'K', '400', 'Not read yet');
-addBookToLibrary('The Lord of the Rings', 'J.R.R Tolkien', '1200', 'Not read yet')
+addBookToLibrary('Hippity', 'K', '300', 'Not read');
+addBookToLibrary('Hoppity', 'K', '400', 'Not read');
+addBookToLibrary('The Lord of the Rings', 'J.R.R Tolkien', '1200', 'Not read')
 
 const openDialog = document.querySelector('.openDialog');
 const dialog = document.querySelector('dialog');
@@ -65,10 +70,28 @@ function removeBook() {
     })
 }
 
+function changeReadStatus() {
+    const buttons = document.querySelectorAll('.changeRead');
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const parentElement = button.parentElement;
+            for(let book of myLibrary) {
+                if (book.id === +parentElement.getAttribute('id')) {
+                    book.changeRead();
+                    displayBookLibrary();
+                }
+            }
+        })
+    })
+}
+
 function createBookDOM() {
     myLibrary.forEach(book => {
         const bookCard = document.createElement('div');
         const removeBook = document.createElement('button');
+        const changeReadStatus = document.createElement('button');
+        changeReadStatus.textContent = 'Change Read Status';
+        changeReadStatus.classList.add('changeRead');
         removeBook.textContent = 'Remove';
         removeBook.classList.add('removeBook');
         bookCard.setAttribute('id',`${book.id}`)
@@ -76,6 +99,7 @@ function createBookDOM() {
         bookCard.classList.add('card');
         bookCard.textContent = book.info();
         bookCard.appendChild(removeBook);
+        bookCard.appendChild(changeReadStatus);
         container.appendChild(bookCard);
     })
 }
