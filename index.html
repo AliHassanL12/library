@@ -9,7 +9,9 @@
 </head>
 <body>
     <div class="container">
-        <button class="openDialog">Add Book</button>
+        <div>
+            <button class="openDialog">Add Book</button>
+        </div>
     </div>
     <dialog>
         <p>Let's add a New and Exciting Book!</p>
@@ -30,8 +32,8 @@
                 Read or Not Read:
                 <input type="text" name="read" required aria-required="true">
             </label>
+            <button class="addBookBtn" type="submit">Add Book</button>
             <button formmethod="dialog" formnovalidate>Cancel</button>
-            <button class="addBookBtn">Add Book</button>
         </form>
     </dialog>
 </body>

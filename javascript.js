@@ -44,9 +44,8 @@ openDialog.addEventListener('click', () => {
     dialog.showModal();
 })
 
-const addBookBtn = document.querySelector('.addBookBtn');
 const form = document.querySelector('#form');
-addBookBtn.addEventListener('click', (event) => {
+form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formToObject = (form) => Object.fromEntries(new FormData(form));
     const book = formToObject(form);
