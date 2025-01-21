@@ -5,7 +5,7 @@ function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    this.read = 'Not read';
     this.id = counter++;
 }
 
@@ -38,7 +38,7 @@ function addRemoveBooksListeners() {
     const removeBook = document.querySelectorAll('.removeBook');
     removeBook.forEach((button) => {
         button.addEventListener('click', () => {
-            const parentElement = button.parentElement;
+            const parentElement = button.parentElement.parentElement;
             for(let book of myLibrary) {
                 if (book.id === +parentElement.getAttribute('id')) {
                     const bookIndex = myLibrary.indexOf(book);
@@ -54,7 +54,7 @@ function  addChangeReadStatusListeners() {
     const buttons = document.querySelectorAll('.changeRead');
     buttons.forEach((button) => {
         button.addEventListener('click', () => {
-            const parentElement = button.parentElement;
+            const parentElement = button.parentElement.parentElement;
             for(let book of myLibrary) {
                 if (book.id === +parentElement.getAttribute('id')) {
                     book.changeRead();
@@ -69,6 +69,8 @@ function displayBooks() {
     myLibrary.forEach(book => {
         const bookCard = document.createElement('div');
         const removeBook = document.createElement('button');
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('buttonContainer');
         const changeReadStatus = document.createElement('button');
         changeReadStatus.textContent = 'Change Read Status';
         changeReadStatus.classList.add('changeRead');
@@ -78,8 +80,9 @@ function displayBooks() {
         const container = document.querySelector('.container');
         bookCard.classList.add('card');
         bookCard.textContent = book.info();
-        bookCard.appendChild(removeBook);
-        bookCard.appendChild(changeReadStatus);
+        buttonContainer.appendChild(removeBook);
+        buttonContainer.appendChild(changeReadStatus);
+        bookCard.appendChild(buttonContainer);
         container.appendChild(bookCard);
     })
 }
@@ -102,7 +105,7 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formToObject = (form) => Object.fromEntries(new FormData(form));
     const book = formToObject(form);
-    addBookToLibrary(book.title, book.author, book.pages, book.read);
+    addBookToLibrary(book.title, book.author, book.pages, 'Not read');
     dialog.close();
 })
 
