@@ -10,7 +10,7 @@ function Book(title, author, pages, read) {
 }
 
 Book.prototype.info = function() {
-    return `${this.title}\nBy ${this.author}\n${this.pages} pages\n${this.read}`
+    return `Title: ${this.title}\nAuthor: ${this.author}\nNumber of Pages: ${this.pages}\n${this.read}`
 }
 
 Book.prototype.changeRead = function() {

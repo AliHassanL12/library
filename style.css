@@ -24,7 +24,7 @@ body {
     margin: 5px;
     padding: 5px;
     border: 1px solid green;
-    background-color: rgb(229, 64, 64);
+    background-color: rgb(52, 213, 119);
     white-space: pre-line;
     display: flex;
     flex-direction: column;
@@ -112,9 +112,25 @@ form > label {
   margin-top: auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .changeRead, 
 .removeBook {
-  flex: 0 0 20px;
+  flex: 0 0 40px;
+  width: 8rem;
+  height: 2rem; 
+  border-radius: 10px;
+  border: none;
+}
+
+.changeRead:hover,
+.removeBook:hover {
+  background-color: rgb(226, 223, 223);
+}
+
+.changeRead:active,
+.removeBook:active {
+  background-color: rgb(184, 180, 180);
 }
