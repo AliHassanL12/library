@@ -93,7 +93,10 @@ const dialog = document.querySelector('dialog');
 openDialog.addEventListener('click', () => {
     dialog.showModal();
 })
-
+const cancelBtn = document.querySelector('.cancelBtn')
+cancelBtn.addEventListener('click', () => {
+    dialog.close();
+})
 const form = document.querySelector('#form');
 form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -102,3 +105,4 @@ form.addEventListener('submit', (event) => {
     addBookToLibrary(book.title, book.author, book.pages, book.read);
     dialog.close();
 })
+
